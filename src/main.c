@@ -11,8 +11,8 @@
 
 int main() {
   // Create time array
-  size_t timeSteps = 10;
-  float dt = 1.0f / timeSteps;
+  size_t timeSteps = 100000;
+  float dt = 10E-4;
   Mat *t = createMat(timeSteps + 1, 1);
 
   // Init conditions
