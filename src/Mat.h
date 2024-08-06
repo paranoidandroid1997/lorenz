@@ -74,3 +74,13 @@ Mat *scaleMat(Mat *mat, double a) {
   }
   return scaledMat;
 }
+
+void writeMat(Mat *mat, char *fName) {
+  FILE *f = fopen(fName, "w");
+  for (size_t i = 0; i < mat->rows; i++) {
+    for (size_t j = 0; j < mat->cols; j++) {
+      fprintf(f, "%f ", matGet(mat, i, j));
+    }
+    fprintf(f, "\n");
+  }
+}

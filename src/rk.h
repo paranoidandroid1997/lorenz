@@ -4,6 +4,7 @@
 #include "lorenz.h"
 
 Mat *rkStep(Mat *xk, float h) {
+  // Butcher
   double b1 = 1.0 / 6.0;
   double b2 = 1.0 / 3.0;
   double b3 = 1.0 / 3.0;
@@ -12,6 +13,7 @@ Mat *rkStep(Mat *xk, float h) {
   double a32 = 1.0 / 2.0;
   double a43 = 1.0;
 
+  // Intermediate steps
   Mat *k1 = lorenz(xk);
 
   Mat *k2Shift = scaleMat(k1, h * a21);
@@ -42,13 +44,15 @@ Mat *rkStep(Mat *xk, float h) {
   freeMat(k3);
   freeMat(k4);
 
-  Mat* t1 = addMat(k1S, k2S);
-  Mat* t2 = addMat(k3S, k4S);
-  Mat* t3 = addMat(t1, t2);
+  // Consolidating
+  Mat *t1 = addMat(k1S, k2S);
+  Mat *t2 = addMat(k3S, k4S);
+  Mat *t3 = addMat(t1, t2);
   freeMat(t1);
   freeMat(t2);
-  
-  Mat* xkp1 = addMat(xk, t3);
+
+  // Final Combination
+  Mat *xkp1 = addMat(xk, t3);
   freeMat(t3);
 
   return xkp1;

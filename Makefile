@@ -31,5 +31,7 @@ $(BUILD_DIR)/%.c.o: %.c
 .PHONY: clean
 clean:
 	rm -r $(BUILD_DIR)
+	rm output/state.txt
+	rm output/time.txt
 
 -include $(DEPS)

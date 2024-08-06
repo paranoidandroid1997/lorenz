@@ -13,7 +13,7 @@ int main() {
   // Create time array
   size_t timeSteps = 10;
   float dt = 1.0f / timeSteps;
-  Mat *t = createMat(timeSteps, 1);
+  Mat *t = createMat(timeSteps + 1, 1);
 
   // Init conditions
   float currTime = 0.0f;
@@ -27,10 +27,7 @@ int main() {
   Mat *xkp1;
 
   // Store results
-  Mat* Res = createMat(3,timeSteps + 1);
-
-  printMat(xk);
-  printf("\n");
+  Mat *Res = createMat(3, timeSteps + 1);
 
   while (currStep <= timeSteps) {
     matColSet(Res, currStep, xk);
@@ -42,6 +39,8 @@ int main() {
     currTime += dt;
   }
 
+  writeMat(Res, "./output/state.txt");
+  writeMat(t, "./output/time.txt");
 
   freeMat(xkp1);
   freeMat(t);
