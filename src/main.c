@@ -4,42 +4,47 @@
 #include <stdint.h>
 // Basic functionality
 #include <stdlib.h>
+// Matrix struct
+#include "Mat.h"
+// Time stepper
+#include "rk.h"
 
-// A matrix struct
-typedef struct {
-  size_t rows;
-  size_t cols;
-  double *dat;
-} Mat;
-
-Mat *createMat(size_t rows, size_t cols) {
-  Mat *newMat = calloc(1, sizeof(Mat));
-  newMat->rows = rows;
-  newMat->cols = cols;
-  newMat->dat = calloc(rows * cols, sizeof(double));
-
-  return newMat;
-}
-
-void freeMat(Mat *mat) {
-  free(mat->dat);
-  free(mat);
-}
-
-void printMat(Mat *mat) {
-  for (size_t i = 0; i < mat->rows; i++) {
-    for (size_t j = 0; j < mat->cols; j++) {
-      printf("%f", mat->dat[(i)*mat->cols + j]);
-    }
-    printf("\n");
-  }
-}
 int main() {
-  
-  Mat *t = createMat(10, 10);
+  // Create time array
+  size_t timeSteps = 10;
+  float dt = 1.0f / timeSteps;
+  Mat *t = createMat(timeSteps, 1);
 
-  printMat(t);
+  // Init conditions
+  float currTime = 0.0f;
+  size_t currStep = 0;
 
+  Mat *xk = createMat(3, 1);
+  matSet(xk, 0, 0, 1.0);
+  matSet(xk, 1, 0, 1.0);
+  matSet(xk, 2, 0, 1.0);
+
+  Mat *xkp1;
+
+  // Store results
+  Mat* Res = createMat(3,timeSteps + 1);
+
+  printMat(xk);
+  printf("\n");
+
+  while (currStep <= timeSteps) {
+    matColSet(Res, currStep, xk);
+    matSet(t, currStep, 0, currTime);
+    xkp1 = rkStep(xk, dt);
+    freeMat(xk);
+    xk = xkp1;
+    currStep++;
+    currTime += dt;
+  }
+
+
+  freeMat(xkp1);
   freeMat(t);
+  freeMat(Res);
   return 0;
 }
