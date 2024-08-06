@@ -17,6 +17,8 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 # Generate dependancy files
 CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
+CFLAGS := -Wall -Wextra -Wpedantic -Werror -Wshadow
+
 # Final build
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS)
