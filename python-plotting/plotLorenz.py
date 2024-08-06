@@ -17,6 +17,6 @@ if __name__ == "__main__":
     ax.set_zlabel('Z')
 
     # Show plot
-    plt.savefig("../plots/lorenz.png", dpi=1200)
+    plt.savefig("../plots/lorenz.png", dpi=600)
 
     
