@@ -47,6 +47,11 @@ Mat *rkStep(Mat *xk, float h) {
   // Consolidating
   Mat *t1 = addMat(k1S, k2S);
   Mat *t2 = addMat(k3S, k4S);
+  freeMat(k1S);
+  freeMat(k2S);
+  freeMat(k3S);
+  freeMat(k4S);
+  
   Mat *t3 = addMat(t1, t2);
   freeMat(t1);
   freeMat(t2);
